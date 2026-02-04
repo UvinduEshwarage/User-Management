@@ -4,17 +4,20 @@ import Post from "@/lib/models/Post";
 import { NextResponse } from "next/server";
 
 //update a post 
-export async function PUT(req:Request,
-    {params}:{params:{id:string}}){
+export async function PUT(
+    req: Request,
+    { params }: { params: Promise<{ id: string }> }
+){
         try {
             await connectDB();
-            const {id} = await params; 
+            const { id } = await params; 
             const user = getUserFromRequest(req);
 
             const body = await req.json();
-            const post = await Post.findOneAndUpdate({_id:id , userId:user.userId},
+            const post = await Post.findOneAndUpdate(
+                { _id: id, userId: user.userId },
                 body,
-                {new:true}
+                { new: true }
             );
 
             if(!post){
@@ -28,22 +31,28 @@ export async function PUT(req:Request,
 
 
 //delete a post
-export async function DELETE(req:Request,
-    {params}:{params:{id:string}}){
+export async function DELETE(
+    req: Request,
+    { params }: { params: Promise<{ id: string }> }
+){
         try {
             await connectDB();
-            const {id} = await params;
+            const { id } = await params;
             const user = getUserFromRequest(req);
 
-            const post = await Post.findOneAndDelete({_id:id , userId:user.userId});
+            const post = await Post.findOneAndDelete(
+                { _id: id, userId: user.userId }
+            );
 
             if(!post){
                 return NextResponse.json({message:"Post Not Found"},{status:404});
             }
 
-            return NextResponse.json({message:"Post Deleted Successfully"},{status:200});
+            return NextResponse.json(
+              {message:"Post Deleted Successfully"},
+              {status:200}
+            );
         } catch (err:any) {
             return NextResponse.json({message:err.message},{status:500});
-            
         }
 }
