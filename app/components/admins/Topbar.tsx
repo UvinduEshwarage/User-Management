@@ -1,11 +1,10 @@
 import React from 'react'
 
-function Topbar() {
+export default function Topbar() {
   return (
-    <div>
-      hello im topbar
-    </div>
+    <header className='h-14 bg-white border-b flex items-center justify-end px-4  '>
+        <button className='text-sm font-medium '>Logout</button>
+    </header>
   )
 }
-
-export default Topbar
+ 
