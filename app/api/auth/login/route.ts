@@ -25,7 +25,13 @@ export async function POST(req:Request){
         process.env.JWT_SECRET_KEY!,
         {expiresIn:'1d'}
     );
-    return NextResponse.json({token},{status:200});
+    return NextResponse.json(
+        {
+            token,
+            role:user.role}
+            ,
+            {status:200}
+        );
 
     } catch (error) {
         return NextResponse.json({message:"Internal Server Error 500"},{status:500});    

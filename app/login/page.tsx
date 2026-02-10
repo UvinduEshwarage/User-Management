@@ -27,7 +27,12 @@ export default function LoginPage(){
 
         localStorage.setItem("token",data.token);
         router.push('/dashboard');
-
+        
+        if(data.role === "admin"){
+          router.push('admin');
+        }else{
+          router.push('/dashboard');
+        }
     }
     return (
   <div className="flex flex-col items-center justify-center min-h-[650px]">
