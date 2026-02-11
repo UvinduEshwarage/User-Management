@@ -6,13 +6,13 @@ export default function sidebar() {
 
     const navItems = [
         {name:"Dashboard",href:"/admin"},
-        {name:"Users",href:"/admin/users"},
-        {name:"Edit Posts",href:"/admin/posts"}
+        {name:"Users page",href:"/admin/users"},
+        {name:"Posts page",href:"/admin/posts"}
     ];
   return (
     <aside className='w-64 bg-white border-r'>
       <div className='p-4 font-bold text-lg'>Admin Dashboard</div>
-      <nav className='space-y-1 px-2'>
+      <nav className='space-y-10 px-2 text-lg'>
         {navItems.map((item) => (
             <Link 
             key={item.href}
