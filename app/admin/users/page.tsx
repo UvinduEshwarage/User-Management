@@ -1,11 +1,11 @@
 import React from 'react'
 
-function page() {
+export default function userEdits() {
   return (
     <div>
-      Users
+      
     </div>
   )
 }
 
-export default page
+
