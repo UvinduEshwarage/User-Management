@@ -14,7 +14,7 @@ export default function DashboardPage(){
       try {
         const token = localStorage.getItem("token");
         if(!token){
-          throw new Error("Unautherized");
+          throw new Error("Unautherized");  
         }
         const res = await fetch('/api/admin/users', {
           method: 'GET',
@@ -27,7 +27,7 @@ export default function DashboardPage(){
           throw new Error("Failed to fetch Users");
         }
         const data = await res.json();
-        setUserCount(data.length);
+        setUserCount(data.length);  
 
 ;       } catch (err:any) {
         setError(err.message);
