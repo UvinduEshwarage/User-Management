@@ -1,4 +1,5 @@
 "use client";
+import { set } from 'mongoose';
 import React, { useState, useEffect } from 'react';
 
 // Helper function - we mark the return as Promise<any>
@@ -62,6 +63,92 @@ export default function Dashboard() {
       </div>
     );
   }
+//create post function
+  async function handleCreatepost() {
+  try {
+    const token = localStorage.getItem("token");
+
+    const title = prompt("Enter post title");
+    const content = prompt("Enter post content");
+
+    if (!title || !content) {
+      alert("Title and Content are required");
+      return;
+    }
+
+    const res = await fetch("/api/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({ title, content })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.message);
+      return;
+    }
+
+    // Update UI without reload (cleaner way)
+    setData((prev: any) => ({
+      ...prev,
+      posts: [...prev.posts, data]
+    }));
+
+    alert("Post created successfully!");
+
+  } catch (error) {
+    console.error(error);
+    alert("Something went wrong");
+  }
+}
+//edit post function
+async function editPost(post:any){
+  try {
+    const token = localStorage.getItem("token");
+
+    const newTitle = prompt("Enter New Title",post.title);
+    const newContent = prompt("Enter new content",post.content);
+
+    if(!newTitle || !newContent){
+      alert("Title and Content are required");
+      return;
+    }
+
+    const res = await fetch(`/api/posts/${post._id}`,{
+      method:"PUT",
+      headers:{
+          "Content-Type":"application/json",
+          "authorization":`Bearer ${token}`
+      },
+      body:JSON.stringify({
+        title:newTitle,
+        content:newContent
+      })
+    });
+    const data = await res.json();
+
+    if(!res.ok){
+      alert(data.message);
+      return;
+    }
+
+    //ui update
+    setData((prev:any) => ({
+      ...prev,
+      posts: prev.posts.map((p:any) => p._id === post._id ? data : p)
+    }));
+
+    alert("Post updated successfully!");
+  } catch (error) {
+    alert("Something went wrong");
+    console.error(error);
+  }
+}
+
 
   return (
     <main className="min-h-screen bg-gray-50 p-6">
@@ -69,12 +156,13 @@ export default function Dashboard() {
         
         {/* Header */}
         <header className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">User Dashboard</h1>
+          <h1 className="text-2xl font-bold text-gray-800"> User Dashboard</h1>
         </header>
 
         {/* Feed */}
         <section className="space-y-4">
           <h2 className="text-lg font-semibold text-gray-500">Your Posts ({data.posts?.length || 0})</h2>
+          <button className='border p-2' onClick={handleCreatepost}>📝</button>
           
           {data.posts && data.posts.length > 0 ? (
             data.posts.map((post: any) => (
@@ -84,6 +172,8 @@ export default function Dashboard() {
               >
                 <h3 className="font-bold text-gray-900">{post.title}</h3>
                 <p className="text-gray-600 mt-2">{post.content}</p>
+                <button className='border p-1' onClick={() =>   editPost(post)}>🖋️</button>
+
               </article>
             ))
           ) : (
