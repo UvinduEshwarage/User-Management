@@ -19,6 +19,7 @@ export default function AdminPostTable({posts} : {posts:Post[] }) {
                 <th className='p-3 text-left'>Tttle</th>
                 <th className='p-3 text-left'>Content</th>
                 <th className='p-3 text-left'>User Email</th>
+                <th className='p-3 text-left'>Actions</th>
             </tr>
         </thead>
         <tbody>

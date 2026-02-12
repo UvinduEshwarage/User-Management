@@ -6,7 +6,6 @@ export default function sidebar() {
 
     const navItems = [
         {name:"Dashboard",href:"/admin"},
-        {name:"Users page",href:"/admin/users"},
         {name:"Posts page",href:"/admin/posts"}
     ];
   return (
